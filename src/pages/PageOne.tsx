@@ -83,7 +83,12 @@ export default function PageOne() {
           <IconLanguageSwitcher />
         </Box>
       </Paper>
-      <Paper elevation={1}>
+      <Paper
+        elevation={1}
+        sx={{
+          p: 2,
+        }}
+      >
         <Typography>Elevation 1</Typography>
         <Button variant='outlined' color='primary'>
           Click Me
@@ -92,7 +97,12 @@ export default function PageOne() {
           Click Me
         </Button>
       </Paper>
-      <Paper elevation={2}>
+      <Paper
+        elevation={2}
+        sx={{
+          p: 2,
+        }}
+      >
         <Typography>Elevation 2</Typography>
         <Button variant='contained' color='primary'>
           Click Me
@@ -101,7 +111,12 @@ export default function PageOne() {
           Click Me
         </Button>
       </Paper>
-      <Paper elevation={3}>
+      <Paper
+        elevation={3}
+        sx={{
+          p: 2,
+        }}
+      >
         <Typography>Elevation 3</Typography>
       </Paper>
       <TestSetter />

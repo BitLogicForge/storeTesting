@@ -1,6 +1,6 @@
 import { Button, Paper, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../stores/hooks';
-import { removeKeyFromDict, setDictOfValues } from '../stores/slices/testOneSlice';
+import { removeKeyFromDict, setDictOfValues } from '../stores/slices/test1Slice';
 
 export default function TestSetterDict() {
   const extDict = useAppSelector(state => state.testOne.dictOfValues);
@@ -10,7 +10,12 @@ export default function TestSetterDict() {
   console.log('TestSetterDict render');
   console.log('extDict', extDict);
   return (
-    <Paper elevation={2}>
+    <Paper
+      elevation={2}
+      sx={{
+        p: 2,
+      }}
+    >
       <Typography>Slice</Typography>
 
       <div>

@@ -4,7 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import notificationReducer from '../notifications/notificationSlice';
 import appReducer from './slices/appSlice';
 import exampleReducer from './slices/exampleSlice';
-import testOneReducer from './slices/testOneSlice';
+import testOneReducer from './slices/test1Slice';
 
 // Persist only exampleVarNum from testOneSlice
 const testOnePersistConfig = {
