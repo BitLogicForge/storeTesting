@@ -3,7 +3,7 @@ import { createSliceHelpers } from './slice.helpers';
 
 type TSentiment = 'positive' | 'neutral' | 'negative';
 
-type TState = {
+type State = {
   exampleVarStr: string;
   exampleVarNum: number;
   exampleVarBool: boolean;
@@ -13,7 +13,7 @@ type TState = {
   dictOfNumValues: Record<string, number[]>;
 };
 
-const initialState: TState = {
+const initialState: State = {
   exampleVarStr: 'Initial string',
   exampleVarNum: 0,
   exampleVarBool: false,
@@ -26,7 +26,7 @@ const initialState: TState = {
 const nameScope = 'testOneSlice';
 
 const { createValueSetter, createBoolToggler, createValueSetterToDict, createRemoveKeyFromDict } =
-  createSliceHelpers<TState>(nameScope);
+  createSliceHelpers<State>(nameScope);
 
 const slice = createSlice({
   name: nameScope,

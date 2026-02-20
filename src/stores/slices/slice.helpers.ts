@@ -31,12 +31,12 @@ function createGenericValueItemsSetter<K extends Record<string, unknown>, F exte
 
     if (Array.isArray(currentValue) && value) {
       if (currentValue.filter(item => item === value).length > 0) {
-        console.log(`[${scope}][${String(field)}] REMOVE ITEM: ${value} FROM: `, currentValue);
+        console.log(`[${scope}][${String(field)}] REMOVE ITEM: ${value} FROM: `, [...currentValue]);
         (state[field] as unknown as Array<unknown>) = (currentValue as unknown as Array<unknown>).filter(
           item => item !== value,
         );
       } else {
-        console.log(`[${scope}][${String(field)}] ADD ITEM: ${value} FROM: `, currentValue);
+        console.log(`[${scope}][${String(field)}] ADD ITEM: ${value} FROM: `, [...currentValue]);
         (state[field] as unknown as Array<unknown>).push(value);
       }
     }
