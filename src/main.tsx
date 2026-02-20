@@ -1,15 +1,18 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './App.tsx';
 import './i18n.ts'; // Ensure i18n is initialized before rendering the app;
 import './index.css';
-import { store } from './stores/store';
+import { persistor, store } from './stores/store';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 );

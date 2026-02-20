@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createNestedSliceHelpers } from './nested-slice.helpers';
+import { createNestedSliceHelpers } from './slice-nested.helpers';
 
 type TSentiment = 'positive' | 'neutral' | 'negative';
 

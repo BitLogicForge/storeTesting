@@ -23,7 +23,7 @@ function createGenericValueSetter<K extends Record<string, unknown>, F extends k
     }
   };
 }
-
+// Generic function to create a boolean toggler for any boolean field in the state
 function createGenericValueItemsSetter<K extends Record<string, unknown>, F extends keyof K>(field: F, scope: string) {
   return (state: K, action: PayloadAction<K[F] extends Array<infer T> ? T : never>) => {
     const value = action.payload;
@@ -112,13 +112,4 @@ export function createSliceHelpers<K extends Record<string, unknown>>(scope: str
     createBoolTogglerToDict: <F extends keyof K>(field: F) => createGenericBoolTogglerToDictionary<K, F>(field, scope),
     createValueItemsSetter: <F extends keyof K>(field: F) => createGenericValueItemsSetter<K, F>(field, scope),
   };
-}
-
-//to refractor section - not used yet, but can be useful for more complex state structures like dictionaries of lists, etc.
-
-export function ensureList<K extends Record<string, unknown>>(state: Record<string, K>, list: string, scope: string) {
-  if (!state[list]) {
-    state[list] = {} as K;
-    console.log(`[${scope}][${String(list)}] Initialized list`);
-  }
 }
