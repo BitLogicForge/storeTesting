@@ -1,10 +1,10 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-function haveSameContents<T>(arr1: T[], arr2: T[]): boolean {
-  if (arr1.length !== arr2.length) {
+function haveSameContents<T>(arr1: T[] | null, arr2: T[] | null): boolean {
+  if (!arr1 || !arr2) {
     return false;
   }
-  if (!arr1 || !arr2) {
+  if (arr1.length !== arr2.length) {
     return false;
   }
   if (arr1.length !== arr2.length) {
