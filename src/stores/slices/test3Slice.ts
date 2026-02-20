@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { createDeepSliceHelpers } from './slice-deep.helpers';
 
-type StateEntry = {
+type State = {
   nest1: {
     nest2: {
       nest3: {
@@ -18,7 +19,7 @@ type StateEntry = {
   exampleVarNum: number;
 };
 
-const initialStateEntry: StateEntry = {
+const initialState: State = {
   nest1: {
     nest2: {
       nest3: {
@@ -35,18 +36,34 @@ const initialStateEntry: StateEntry = {
   exampleVarNum: 0,
 };
 
-type State = Record<string, StateEntry>;
-const initialState: State = {
-  entry1: { ...initialStateEntry },
-};
+const nameScope = 'testThreeSlice';
 
-const nameScope = 'testTwoSlice';
+const { createDeepValueSetter } = createDeepSliceHelpers<State>(nameScope);
 
 const slice = createSlice({
   name: nameScope,
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    // path is baked in at definition time → value type is inferred from the path
+    setExampleVarStr: createDeepValueSetter(['exampleVarStr'] as const),
+    setExampleVarNum: createDeepValueSetter(['exampleVarNum'] as const),
+    setNest1VarStr: createDeepValueSetter(['nest1', 'exampleVarStr'] as const),
+    setNest1VarNum: createDeepValueSetter(['nest1', 'exampleVarNum'] as const),
+    setNest2VarStr: createDeepValueSetter(['nest1', 'nest2', 'exampleVarStr'] as const),
+    setNest2VarNum: createDeepValueSetter(['nest1', 'nest2', 'exampleVarNum'] as const),
+    setNest3VarStr: createDeepValueSetter(['nest1', 'nest2', 'nest3', 'exampleVarStr'] as const),
+    setNest3VarNum: createDeepValueSetter(['nest1', 'nest2', 'nest3', 'exampleVarNum'] as const),
+  },
 });
 
-export const {} = slice.actions;
+export const {
+  setExampleVarStr,
+  setExampleVarNum,
+  setNest1VarStr,
+  setNest1VarNum,
+  setNest2VarStr,
+  setNest2VarNum,
+  setNest3VarStr,
+  setNest3VarNum,
+} = slice.actions;
 export default slice.reducer;
