@@ -25,7 +25,7 @@ function createGenericValueSetter<K extends Record<string, unknown>, F extends k
 }
 
 function createGenericValueItemsSetter<K extends Record<string, unknown>, F extends keyof K>(field: F, scope: string) {
-  return (state: K, action: PayloadAction<K[F]>) => {
+  return (state: K, action: PayloadAction<K[F] extends Array<infer T> ? T : never>) => {
     const value = action.payload;
     const currentValue = state[field] as unknown as Array<unknown>;
 
