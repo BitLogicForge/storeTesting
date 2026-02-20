@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createSliceHelpers } from './slice.helpers';
+import { createNestedSliceHelpers } from './nested-slice.helpers';
 
 type TSentiment = 'positive' | 'neutral' | 'negative';
 
@@ -30,22 +30,34 @@ const initialState: State = {
 
 const nameScope = 'testTwoSlice';
 
-const {} = createSliceHelpers<State>(nameScope);
+const { createValueSetter, createBoolToggler, createValueSetterToDict, createRemoveKeyFromDict, createEntryRemover } =
+  createNestedSliceHelpers<StateEntry>(nameScope, initialStateEntry);
 
 const slice = createSlice({
   name: nameScope,
   initialState: initialState,
   reducers: {
-    // setExampleVarStr: createValueSetter('exampleVarStr'),
-    // setExampleVarNum: createValueSetter('exampleVarNum'),
-    // setExampleVarBool: createValueSetter('exampleVarBool'),
-    // setExampleSentiment: createValueSetter('exampleSentiment'),
-    // setExampleToggle: createBoolToggler('exampleToggle'),
-    // setDictOfValues: createValueSetterToDict('dictOfValues'),
-    // setDictOfNumValues: createValueSetterToDict('dictOfNumValues'),
-    // removeKeyFromDict: createRemoveKeyFromDict('dictOfValues'),
+    setExampleVarStr: createValueSetter('exampleVarStr'),
+    setExampleVarNum: createValueSetter('exampleVarNum'),
+    setExampleVarBool: createValueSetter('exampleVarBool'),
+    setExampleSentiment: createValueSetter('exampleSentiment'),
+    setExampleToggle: createBoolToggler('exampleToggle'),
+    setDictOfValues: createValueSetterToDict('dictOfValues'),
+    setDictOfNumValues: createValueSetterToDict('dictOfNumValues'),
+    removeKeyFromDict: createRemoveKeyFromDict('dictOfValues'),
+    removeEntry: createEntryRemover(),
   },
 });
 
-export const {} = slice.actions;
+export const {
+  setExampleVarStr,
+  setExampleVarNum,
+  setExampleVarBool,
+  setExampleSentiment,
+  setExampleToggle,
+  setDictOfValues,
+  setDictOfNumValues,
+  removeKeyFromDict,
+  removeEntry,
+} = slice.actions;
 export default slice.reducer;
