@@ -1,17 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-function haveSameContents<T>(arr1: T[] | null, arr2: T[] | null): boolean {
-  if (!arr1 || !arr2) {
-    return false;
-  }
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-  return arr1.every((item, index) => item === arr2[index]);
-}
+import equal from 'fast-deep-equal';
 
 // Generic helper functions for creating reducers with logging and type safety
 
@@ -24,7 +12,7 @@ function createGenericValueSetter<K extends Record<string, unknown>, F extends k
   return (state: K, action: PayloadAction<K[F]>) => {
     const value = action.payload;
     if (checkContent && Array.isArray(state[field]) && Array.isArray(value)) {
-      if (haveSameContents(state[field] as K[F] & unknown[], value as K[F] & unknown[])) {
+      if (equal(state[field], value)) {
         console.log(`[${scope}][${String(field)}] NO ChHANGE`);
         return;
       }
@@ -46,7 +34,7 @@ function createGenericValueSetterToDictionary<
     const { key, value } = action.payload;
     const currentValue = (state[field] as Record<string, V>)[key];
     if (checkContent && Array.isArray(currentValue) && Array.isArray(value)) {
-      if (haveSameContents(currentValue as unknown[], value as unknown[])) {
+      if (equal(currentValue, value)) {
         console.log(`[${scope}][${String(field)}][K:${key}] NO ChHANGE`);
         return;
       }
