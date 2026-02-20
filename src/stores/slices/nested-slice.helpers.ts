@@ -4,6 +4,19 @@ import equal from 'fast-deep-equal';
 // Helper functions for nested slice structures where State = Record<string, Entry>
 // Each key in the state holds a complete entry object with auto-initialization support
 
+// Helper to ensure entry exists, initializing if needed
+function ensureEntry<Entry extends Record<string, unknown>>(
+  state: Record<string, Entry>,
+  key: string,
+  initialEntry: Entry,
+  scope: string,
+): void {
+  if (!state[key]) {
+    console.log(`[${scope}][${key}] Initializing new entry`);
+    state[key] = { ...initialEntry };
+  }
+}
+
 // Generic function to create a value setter for a field in the nested entry
 function createNestedValueSetter<Entry extends Record<string, unknown>, F extends keyof Entry>(
   field: F,
@@ -13,12 +26,7 @@ function createNestedValueSetter<Entry extends Record<string, unknown>, F extend
 ) {
   return (state: Record<string, Entry>, action: PayloadAction<{ key: string; value: Entry[F] }>) => {
     const { key, value } = action.payload;
-
-    // Initialize entry if it doesn't exist
-    if (!state[key]) {
-      console.log(`[${scope}][${key}] Initializing new entry`);
-      state[key] = { ...initialEntry };
-    }
+    ensureEntry(state, key, initialEntry, scope);
 
     const currentValue = state[key][field];
     if (checkContent && Array.isArray(currentValue) && Array.isArray(value)) {
@@ -43,12 +51,7 @@ function createNestedBoolToggler<Entry extends Record<string, unknown>>(
 ) {
   return (state: Record<string, Entry>, action: PayloadAction<{ key: string }>) => {
     const { key } = action.payload;
-
-    // Initialize entry if it doesn't exist
-    if (!state[key]) {
-      console.log(`[${scope}][${key}] Initializing new entry`);
-      state[key] = { ...initialEntry };
-    }
+    ensureEntry(state, key, initialEntry, scope);
 
     const newValue = !(state[key][field] as boolean);
     console.log(`[${scope}][${key}][${String(field)}] TOGGLE TO:`, newValue);
@@ -66,12 +69,7 @@ function createNestedValueSetterToDictionary<Entry extends Record<string, unknow
   type DictValue = Entry[F] extends Record<string, infer V> ? V : never;
   return (state: Record<string, Entry>, action: PayloadAction<{ key: string; dictKey: string; value: DictValue }>) => {
     const { key, dictKey, value } = action.payload;
-
-    // Initialize entry if it doesn't exist
-    if (!state[key]) {
-      console.log(`[${scope}][${key}] Initializing new entry`);
-      state[key] = { ...initialEntry };
-    }
+    ensureEntry(state, key, initialEntry, scope);
 
     const dict = state[key][field] as Record<string, DictValue>;
     const currentValue = dict[dictKey];
