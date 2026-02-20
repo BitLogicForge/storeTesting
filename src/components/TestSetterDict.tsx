@@ -17,25 +17,29 @@ export default function TestSetterDict() {
         <Button
           variant='contained'
           color='primary'
-          onClick={() => dispatch(setDictOfValues({ key: 'exKey1', value: 'Value1' }))}
+          onClick={() => dispatch(setDictOfValues({ dictKey: 'exKey1', value: 'Value1' }))}
         >
           add exampleKey
         </Button>
         <Button
           variant='contained'
           color='primary'
-          onClick={() => dispatch(setDictOfValues({ key: 'exKey2', value: 'Value2' }))}
+          onClick={() => dispatch(setDictOfValues({ dictKey: 'exKey2', value: 'Value2' }))}
         >
           add exampleKey
         </Button>
         <Button
           variant='contained'
           color='primary'
-          onClick={() => dispatch(setDictOfValues({ key: 'exKey2', value: 'Vax' }))}
+          onClick={() => dispatch(setDictOfValues({ dictKey: 'exKey2', value: 'Vax' }))}
         >
           change exampleKey2
         </Button>
-        <Button variant='contained' color='secondary' onClick={() => dispatch(removeKeyFromDict({ key: 'exKey2' }))}>
+        <Button
+          variant='contained'
+          color='secondary'
+          onClick={() => dispatch(removeKeyFromDict({ dictKey: 'exKey2' }))}
+        >
           remove exampleKey2
         </Button>
         <div>{JSON.stringify(extDict)}</div>

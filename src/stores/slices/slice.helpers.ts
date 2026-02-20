@@ -49,31 +49,31 @@ function createGenericValueSetterToDictionary<
   F extends keyof K,
   V = K[F] extends Record<string, infer ValueType> ? ValueType : never,
 >(field: F, scope: string, checkContent = false) {
-  return (state: K, action: PayloadAction<{ key: string; value: V }>) => {
-    const { key, value } = action.payload;
-    const currentValue = (state[field] as Record<string, V>)[key];
+  return (state: K, action: PayloadAction<{ dictKey: string; value: V }>) => {
+    const { dictKey, value } = action.payload;
+    const currentValue = (state[field] as Record<string, V>)[dictKey];
     if (checkContent && Array.isArray(currentValue) && Array.isArray(value)) {
       if (equal(currentValue, value)) {
-        console.log(`[${scope}][${String(field)}][K:${key}] NO CHANGE`);
+        console.log(`[${scope}][${String(field)}][K:${dictKey}] NO CHANGE`);
         return;
       }
     }
-    if ((state[field] as Record<string, V>)[key] !== value) {
-      console.log(`[${scope}][${String(field)}][K:${key}] SET: `, value);
-      (state[field] as Record<string, V>)[key] = value;
+    if ((state[field] as Record<string, V>)[dictKey] !== value) {
+      console.log(`[${scope}][${String(field)}][K:${dictKey}] SET: `, value);
+      (state[field] as Record<string, V>)[dictKey] = value;
     }
   };
 }
 
 // Function to create a reducer that removes a key from a dictionary field
 function createRemoveKeyFromDictionary<K extends Record<string, unknown>, F extends keyof K>(field: F, scope: string) {
-  return (state: K, action: PayloadAction<{ key: string }>) => {
-    const { key } = action.payload;
-    if ((state[field] as Record<string, unknown>)[key] !== undefined) {
-      console.log(`[${scope}][${String(field)}][K:${key}] REMOVE`);
-      delete (state[field] as Record<string, unknown>)[key];
+  return (state: K, action: PayloadAction<{ dictKey: string }>) => {
+    const { dictKey } = action.payload;
+    if ((state[field] as Record<string, unknown>)[dictKey] !== undefined) {
+      console.log(`[${scope}][${String(field)}][K:${dictKey}] REMOVE`);
+      delete (state[field] as Record<string, unknown>)[dictKey];
     } else {
-      console.log(`[${scope}][${String(field)}][K:${key}] Key not found for removal`);
+      console.log(`[${scope}][${String(field)}][K:${dictKey}] Key not found for removal`);
     }
   };
 }
@@ -91,12 +91,12 @@ function createGenericBoolTogglerToDictionary<K extends Record<string, unknown>,
   field: F,
   scope: string,
 ) {
-  return (state: K, action: PayloadAction<{ key: string }>) => {
-    const { key } = action.payload;
-    const currentValue = (state[field] as Record<string, boolean>)[key] || false;
+  return (state: K, action: PayloadAction<{ dictKey: string }>) => {
+    const { dictKey } = action.payload;
+    const currentValue = (state[field] as Record<string, boolean>)[dictKey] || false;
     const newValue = !currentValue;
-    console.log(`[${scope}][${String(field)}][K:${key}] TOGGLE TO:`, newValue);
-    (state[field] as Record<string, boolean>)[key] = newValue;
+    console.log(`[${scope}][${String(field)}][K:${dictKey}] TOGGLE TO:`, newValue);
+    (state[field] as Record<string, boolean>)[dictKey] = newValue;
   };
 }
 
