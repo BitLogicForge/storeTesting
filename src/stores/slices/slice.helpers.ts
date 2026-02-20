@@ -13,13 +13,32 @@ function createGenericValueSetter<K extends Record<string, unknown>, F extends k
     const value = action.payload;
     if (checkContent && Array.isArray(state[field]) && Array.isArray(value)) {
       if (equal(state[field], value)) {
-        console.log(`[${scope}][${String(field)}] NO ChHANGE`);
+        console.log(`[${scope}][${String(field)}] NO CHANGE`);
         return;
       }
     }
     if (state[field] !== value) {
       console.log(`[${scope}][${String(field)}] SET: `, value);
       (state[field] as K[F]) = value;
+    }
+  };
+}
+
+function createGenericValueItemsSetter<K extends Record<string, unknown>, F extends keyof K>(field: F, scope: string) {
+  return (state: K, action: PayloadAction<K[F]>) => {
+    const value = action.payload;
+    const currentValue = state[field] as unknown as Array<unknown>;
+
+    if (Array.isArray(currentValue) && value) {
+      if (currentValue.filter(item => item === value).length > 0) {
+        console.log(`[${scope}][${String(field)}] REMOVE ITEM: ${value} FROM: `, currentValue);
+        (state[field] as unknown as Array<unknown>) = (currentValue as unknown as Array<unknown>).filter(
+          item => item !== value,
+        );
+      } else {
+        console.log(`[${scope}][${String(field)}] ADD ITEM: ${value} FROM: `, currentValue);
+        (state[field] as unknown as Array<unknown>).push(value);
+      }
     }
   };
 }
@@ -35,7 +54,7 @@ function createGenericValueSetterToDictionary<
     const currentValue = (state[field] as Record<string, V>)[key];
     if (checkContent && Array.isArray(currentValue) && Array.isArray(value)) {
       if (equal(currentValue, value)) {
-        console.log(`[${scope}][${String(field)}][K:${key}] NO ChHANGE`);
+        console.log(`[${scope}][${String(field)}][K:${key}] NO CHANGE`);
         return;
       }
     }
@@ -91,6 +110,7 @@ export function createSliceHelpers<K extends Record<string, unknown>>(scope: str
       createGenericValueSetterToDictionary<K, F>(field, scope, checkContent),
     createRemoveKeyFromDict: <F extends keyof K>(field: F) => createRemoveKeyFromDictionary<K, F>(field, scope),
     createBoolTogglerToDict: <F extends keyof K>(field: F) => createGenericBoolTogglerToDictionary<K, F>(field, scope),
+    createValueItemsSetter: <F extends keyof K>(field: F) => createGenericValueItemsSetter<K, F>(field, scope),
   };
 }
 
