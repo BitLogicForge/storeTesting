@@ -1,3 +1,21 @@
+/**
+ * TEST 1 — Flat slice with custom slice helpers
+ *
+ * Demonstrates the most basic and common pattern:
+ * a flat Redux slice where all state lives at the top level.
+ *
+ * Key concepts covered:
+ * - `createSliceHelpers` factory: reduces boilerplate by generating
+ *    type-safe reducers without writing them by hand.
+ * - `createValueSetter`   → sets any scalar field (string, number, boolean, union type)
+ * - `createBoolToggler`   → flips a boolean field without a payload
+ * - `createValueSetterToDict` → sets a value inside a `Record<string, V>` field by key
+ * - `createRemoveKeyFromDict` → deletes a key from a `Record<string, V>` field
+ *
+ * When to use this pattern:
+ * Simple, non-nested state where you want concise reducer definitions
+ * and automatic console logging of every state change.
+ */
 import { createSlice } from '@reduxjs/toolkit';
 import { createSliceHelpers } from './slice.helpers';
 

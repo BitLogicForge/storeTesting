@@ -1,3 +1,21 @@
+/**
+ * TEST 3 — Deeply nested slice with path-based value setters
+ *
+ * Demonstrates how to manage state that is deeply nested (multiple levels)
+ * without writing a separate reducer for every leaf field.
+ *
+ * Key concepts covered:
+ * - `createDeepSliceHelpers` factory: generates reducers that navigate an
+ *    arbitrary path inside the state tree to set a leaf value.
+ * - `createDeepValueSetter(['a', 'b', 'c'] as const)` — the path is baked
+ *    in at definition time, and TypeScript infers the correct payload type
+ *    from the path, giving full type safety.
+ * - Supports paths of any depth (1, 2, 3, … levels).
+ *
+ * When to use this pattern:
+ * Deeply nested configuration or UI state where flattening the structure
+ * isn't practical, but you still want concise, type-safe reducers.
+ */
 import { createSlice } from '@reduxjs/toolkit';
 import { createDeepSliceHelpers } from './slice-deep.helpers';
 

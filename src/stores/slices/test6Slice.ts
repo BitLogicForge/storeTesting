@@ -1,3 +1,28 @@
+/**
+ * TEST 6 — Async operations with `createAsyncThunk`
+ *
+ * Demonstrates how to handle side effects (API calls, async logic) inside
+ * Redux Toolkit without any additional middleware beyond the built-in
+ * `redux-thunk`.
+ *
+ * Key concepts covered:
+ * - `createAsyncThunk<ReturnType, ArgType>`: wraps an async function and
+ *    automatically dispatches three lifecycle actions:
+ *      • `pending`   — request started (show spinner, clear errors)
+ *      • `fulfilled` — request succeeded (store the result)
+ *      • `rejected`  — request failed (store the error message)
+ * - `rejectWithValue`: lets you control the rejected action's payload
+ *    instead of serializing the raw Error object.
+ * - `extraReducers` / `builder.addCase`: listens for thunk actions from
+ *    outside the slice — keeps async logic co-located with its state.
+ * - Two thunks shown: one with no argument (`fetchProducts`) and one
+ *    with an id argument (`fetchProductById`).
+ * - `createSelector` used to derive loading state and total price.
+ *
+ * When to use this pattern:
+ * Any time you need to fetch data, POST to an API, or run any async
+ * operation that should update the Redux store.
+ */
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 
 type Product = {

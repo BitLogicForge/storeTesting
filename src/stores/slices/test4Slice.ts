@@ -1,3 +1,21 @@
+/**
+ * TEST 4 — Derived / computed state with `createSelector`
+ *
+ * Demonstrates how to derive new values from slice state using
+ * memoized selectors so that expensive computations only re-run
+ * when the relevant state actually changes.
+ *
+ * Key concepts covered:
+ * - `createSelector` (from Redux Toolkit / reselect): composes input
+ *    selectors and a result function; the result is cached until inputs change.
+ * - Chaining selectors: `selectSumAllItems` and `selectMultiplyAllItems`
+ *    both build on `selectMyItems` — only one input selector needed.
+ * - Flat slice still uses `createSliceHelpers` for the reducer.
+ *
+ * When to use this pattern:
+ * Any time a component needs a value that is *calculated* from stored state
+ * (sums, filters, mappings) — avoids re-computing on every render.
+ */
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { createSliceHelpers } from './slice.helpers';
 

@@ -1,3 +1,22 @@
+/**
+ * TEST 5 — Normalized entity state with `createEntityAdapter`
+ *
+ * Demonstrates Redux Toolkit's built-in solution for storing collections
+ * of items in a normalized shape: `{ ids: [], entities: {} }`.
+ *
+ * Key concepts covered:
+ * - `createEntityAdapter<T>`: generates a set of pre-built, optimized CRUD
+ *    reducers (addOne, addMany, updateOne, removeOne, upsertOne, setAll, …)
+ *    and memoized selectors (selectAll, selectById, selectIds, selectTotal).
+ * - Normalized shape means O(1) lookups by id instead of O(n) array scans.
+ * - Extra state fields (`selectedId`) can be mixed into the adapter state.
+ * - Custom selectors (`selectSelectedProduct`, `selectTotalValue`) layered
+ *    on top of the adapter selectors using `createSelector`.
+ *
+ * When to use this pattern:
+ * Lists of items with unique IDs that need frequent CRUD operations —
+ * products, users, posts, tasks, etc.
+ */
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createEntityAdapter, createSelector, createSlice } from '@reduxjs/toolkit';
 
