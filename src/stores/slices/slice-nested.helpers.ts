@@ -112,6 +112,32 @@ function createNestedRemoveKeyFromDictionary<Entry extends Record<string, unknow
   };
 }
 
+// Generic function to toggle items in an array field within the nested entry
+function createNestedValueItemsSetter<Entry extends Record<string, unknown>, F extends keyof Entry>(
+  field: F,
+  scope: string,
+  initialEntry: Entry,
+) {
+  return (
+    state: Record<string, Entry>,
+    action: PayloadAction<{ key: string; value: Entry[F] extends Array<infer T> ? T : never }>,
+  ) => {
+    const { key, value } = action.payload;
+    ensureEntry(state, key, initialEntry, scope);
+
+    const currentValue = state[key][field] as unknown as Array<unknown>;
+    if (Array.isArray(currentValue) && value) {
+      if (currentValue.filter(item => item === value).length > 0) {
+        console.log(`[${scope}][${key}][${String(field)}] REMOVE ITEM: ${value} FROM: `, [...currentValue]);
+        state[key][field] = (currentValue as unknown as Array<unknown>).filter(item => item !== value) as Entry[F];
+      } else {
+        console.log(`[${scope}][${key}][${String(field)}] ADD ITEM: ${value} FROM: `, [...currentValue]);
+        (state[key][field] as unknown as Array<unknown>).push(value);
+      }
+    }
+  };
+}
+
 // Function to create an entry remover
 function createNestedEntryRemover<Entry extends Record<string, unknown>>(scope: string) {
   return (state: Record<string, Entry>, action: PayloadAction<{ key: string }>) => {
@@ -137,5 +163,7 @@ export function createNestedSliceHelpers<Entry extends Record<string, unknown>>(
     createRemoveKeyFromDict: <F extends keyof Entry>(field: F) =>
       createNestedRemoveKeyFromDictionary<Entry, F>(field, scope),
     createEntryRemover: () => createNestedEntryRemover<Entry>(scope),
+    createValueItemsSetter: <F extends keyof Entry>(field: F) =>
+      createNestedValueItemsSetter<Entry, F>(field, scope, initialEntry),
   };
 }

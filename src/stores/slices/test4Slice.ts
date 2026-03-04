@@ -20,8 +20,12 @@ const slice = createSlice({
   },
 });
 
-const sumItems = (items: number[]) => items.reduce((s, x) => s + x, 0);
-const multiplyItems = (items: number[]) => items.reduce((p, x) => p * x, 1);
+function sumItems(items: number[]) {
+  return items.reduce((s, x) => s + x, 0);
+}
+function multiplyItems(items: number[]) {
+  return items.reduce((p, x) => p * x, 1);
+}
 
 type SliceState = Record<typeof nameScope, State>;
 
