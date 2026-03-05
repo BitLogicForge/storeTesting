@@ -1,0 +1,19 @@
+Sub OdswiezWszystkieWykresy()
+    Dim sld As Slide
+    Dim shp As Shape
+
+    On Error Resume Next
+    For Each sld In ActivePresentation.Slides
+        For Each shp In sld.Shapes
+            ' Sprawdza, czy kształt jest wykresem
+            If shp.HasChart Then
+                ' Odświeża dane wykresu
+                shp.Chart.ChartData.Activate
+                shp.Chart.Refresh
+                ' Zamyka ukryte okno Excela, które się otworzyło
+                shp.Chart.ChartData.Workbook.Close
+            End If
+        Next shp
+    Next sld
+    MsgBox "Zakończono odświeżanie wszystkich wykresów!", vbInformation
+End Sub
